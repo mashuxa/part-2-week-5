@@ -1,40 +1,57 @@
 'use strict';
 
-// Код валидации формы
-//В этой задаче необходимо написать функцию, которая проверяет правильность заполнения формы.
-//
-//Функция называется validateForm и принимает следующие настройки:
-//
-//formId – идентификатор формы;
-//formValidClass – класс, добавляемый форме в случае пройденной проверки;
-//formInvalidClass – класс, добавляемый форме в случае ошибок;
-//inputErrorClass – класс, добавляемый элементам input в случае ошибочного заполнения.
+function validateForm(settings) {
+    var form = document.getElementById(settings.formId);
+    var isValidForm = false;
 
-//При потере фокуса (blur) элемента input вызывается проверка для этого элемента.
-//При отправке формы (submit) проверяются все элементы. Обратите внимание, что форму можно отправить несколькими способами: нажатием enter на элементе input и кликом.
-//Фактической отправки происходить не должно. Страница не должна перезагружаться.
-//Если элемент не прошел проверку, на него добавляется класс из настройки inputErrorClass.
-//Класс с ошибкой (inputErrorClass) удаляется при фокусе на элемент (focus).
-//Если при отправке формы нет ошибок, форме добавляется класс из настройки formValidClass: автоматически появляется сообщение, что форма не содержит ошибок.
-//Если при отправке формы обнаружены ошибки, в форму добавляется класс из настройки formInvalidClass: автоматически появится сообщение, что форма содержит ошибки.
-//Одновременно двух сообщений быть не должно.
+    function check(elem) {
+        console.log(elem);
+        var isInvalidInput = false;
 
-var set = {
-    formId: 'profile',
-    formValidClass: 'form_valid',
-    formInvalidClass: 'form_invalid', 
-    inputErrorClass: 'input_error'
-};
+        //проверка элемента. если элемент верно заполнен вернуть true
 
-function validateForm(settings){
-   console.log(settings); 
-    
-    
-    
-    
-    
-    
+        if (isInvalidInput) {
+            elem.classList.add(settings.inputErrorClass);
+        }
+    }
+
+
+
+
+
+
+    //отмена стандартной отправки формы
+    //проверка всех инпутов
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var elements = document.getElementsByTagName("input");
+        for (var i = 0; i < elements.length; i++) {
+            check(elements[i]);
+
+        }
+    }, true);
+
+
+
+    //потеря фокуса на инпуте
+    form.addEventListener("blur", function (e) {
+        if (e.target.tagName === "INPUT") {
+            check(e.target);
+        }
+    }, true);
+
+
+    //при фокусе на инпуте 
+    form.addEventListener("focus", function (e) {
+        if (e.target.tagName === "INPUT") {
+            e.target.classList.remove(settings.inputErrorClass);
+        }
+    }, true);
+
+
+
+
+
+
+
 }
-
-
- 
